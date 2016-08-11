@@ -1,0 +1,31 @@
+nodes:
+  allinone:
+    flavor: large
+    image: xenial
+    disk: 50
+    security_groups:
+      - horizon
+      - vncproxy
+      - ssh
+    script: |
+      #!/bin/bash -x
+      apt-get install -y git
+      git clone https://github.com/aaSemble/puppet-openstack-integration
+      cd puppet-openstack-integration
+      ./all-in-one.sh
+security_groups:
+  horizon:
+  - cidr: 0.0.0.0/0
+    from_port: 80
+    to_port: 80
+    protocol: tcp
+  vncproxy:
+  - cidr: 0.0.0.0/0
+    from_port: 6080
+    to_port: 6080
+    protocol: tcp
+  ssh:
+  - cidr: 0.0.0.0/0
+    from_port: 22
+    to_port: 22
+    protocol: tcp
